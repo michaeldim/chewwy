@@ -28,8 +28,9 @@ module.exports.fetch = (event, context, callback) => {
 
         for (let i = 0; i < lines.length; i += 1) {
           if (i === lineNumber - 1 && lines[i].indexOf('Matthew Smith')) {
+            console.log(lines[i]);
             route = lines[i]
-              .split('/t/:')
+              .split('/:+')
               .pop()
               .split(':');
             break;
