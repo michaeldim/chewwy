@@ -1,0 +1,20 @@
+{
+  "name": "chewwy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "serverless-offline": "^3.18.0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}
