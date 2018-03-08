@@ -1,5 +1,5 @@
 const axios = require('axios');
-// const fs = require('fs');
+const fs = require('fs');
 
 const urls = [
   'http://vatsim-data.hardern.net/vatsim-data.txt',
@@ -17,8 +17,10 @@ module.exports.fetch = (event, context, callback) => {
     .then((res) => {
       const contents = res.data;
       let route = [];
-
-      const index = contents.indexOf('Matthew Smith');
+      // search on pilot ID plus partial first name for unique identifier as
+      // pilot names can be changed eg. Matthew Smith / Matt Smith
+      // and pilot ID alone may indexed elsewhere in text
+      const index = contents.indexOf(':1239164:Mat');
       route[0] = 'No route data available';
 
       if (index !== -1) {
@@ -27,7 +29,7 @@ module.exports.fetch = (event, context, callback) => {
         const lines = contents.split('\n');
 
         for (let i = 0; i < lines.length; i += 1) {
-          if (i === lineNumber - 1 && lines[i].indexOf('Matthew Smith')) {
+          if (i === lineNumber - 1) {
             console.log(lines[i]);
             route = lines[i]
               .split('/:')
@@ -37,7 +39,6 @@ module.exports.fetch = (event, context, callback) => {
           }
         }
       }
-
       const response = {
         statusCode: 200,
         body: route[0],
@@ -53,27 +54,35 @@ module.exports.fetch = (event, context, callback) => {
 // for testing against local data file
 // module.exports.fetch = (event, context, callback) => {
 //   fs.readFile('vatsim-data.txt', 'utf-8', (err, contents) => {
-//     const index = contents.indexOf('Matthew Smith');
-//     const tempString = contents.substring(0, index);
-//     const lineNumber = tempString.split('\n').length;
+//     let route = [];
+//     // search on pilot ID plus partial first name for unique identifier as
+//     // pilot names can be changed eg. Matthew Smith / Matt Smith
+//     // and pilot ID alone may indexed elsewhere in text
+//     const index = contents.indexOf(':1239164:Mat');
+//     route[0] = 'No route data available';
 
-//     const lines = contents.split('\n');
-//     let findRoute;
-//     for (let i = 0; i < lines.length; i += 1) {
-//       if (i === lineNumber - 1) {
-//         // const colonSplit = lines[i].split(':');
-//         findRoute = lines[i]
-//           .split('/t/:')
-//           .pop()
-//           .split(':');
+//     if (index !== -1) {
+//       const tempString = contents.substring(0, index);
+//       const lineNumber = tempString.split('\n').length;
+//       const lines = contents.split('\n');
+
+//       for (let i = 0; i < lines.length; i += 1) {
+//         if (i === lineNumber - 1) {
+//           console.log(lines[i]);
+//           route = lines[i]
+//             .split('/:')
+//             .pop()
+//             .split(':');
+//           break;
+//         }
 //       }
 //     }
-//     const route = findRoute[0];
 
 //     const response = {
 //       statusCode: 200,
-//       body: route,
+//       body: route[0],
 //       headers: { 'content-type': 'text/plain' },
 //     };
 //     callback(null, response);
 //   });
+// };
