@@ -1,12 +1,12 @@
 const axios = require('axios');
-const fs = require('fs');
+// const fs = require('fs');
 
 const urls = [
   'http://vatsim-data.hardern.net/vatsim-data.txt',
   'http://wazzup.flightoperationssystem.com/vatsim/vatsim-data.txt',
   'http://vatsim.aircharts.org/vatsim-data.txt',
   'http://data.vattastic.com/vatsim-data.txt',
-  'http://info2.vroute.net/vatsim-data.txt',
+  // 'http://info2.vroute.net/vatsim-data.txt', // dead link
 ];
 
 const randomUrl = urls[Math.floor(Math.random() * urls.length)];
