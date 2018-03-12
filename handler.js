@@ -39,6 +39,11 @@ module.exports.fetch = (event, context, callback) => {
           }
         }
       }
+
+      if (!route[0].includes(' ')) {
+        route[0] = 'No route data available';
+      }
+
       const response = {
         statusCode: 200,
         body: route[0],
