@@ -41,7 +41,7 @@ module.exports.fetch = (event, context, callback) => {
       }
 
       if (!route[0].includes(' ')) {
-        route[0] = 'No route data available';
+        route[0] = 'Flight plan not filed';
       }
 
       const response = {
