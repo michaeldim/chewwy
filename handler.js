@@ -21,7 +21,6 @@ module.exports.fetch = (event, context, callback) => {
       // pilot names can be changed eg. Matthew Smith / Matt Smith
       // and pilot ID alone may indexed elsewhere in text
       const index = contents.indexOf(':1239164:Mat');
-      route[0] = 'No route data available';
 
       if (index !== -1) {
         const tempString = contents.substring(0, index);
@@ -31,22 +30,18 @@ module.exports.fetch = (event, context, callback) => {
         for (let i = 0; i < lines.length; i += 1) {
           if (i === lineNumber - 1) {
             console.log(lines[i]);
-            route = lines[i]
-              .split('/:')
-              .pop()
-              .split(':');
+            route = lines[i].split(':');
             break;
           }
         }
       }
 
-      if (!route[0].includes(' ')) {
-        route[0] = 'Flight plan not filed';
-      }
+      // go the planned_route column of client data at index '30' of route array
+      const message = route[30] === '' ? 'Flight plan not filed on VATSIM' : route[30].toString();
 
       const response = {
         statusCode: 200,
-        body: route[0],
+        body: message,
       };
       callback(null, response);
     })
@@ -64,7 +59,6 @@ module.exports.fetch = (event, context, callback) => {
 //     // pilot names can be changed eg. Matthew Smith / Matt Smith
 //     // and pilot ID alone may indexed elsewhere in text
 //     const index = contents.indexOf(':1239164:Mat');
-//     route[0] = 'No route data available';
 
 //     if (index !== -1) {
 //       const tempString = contents.substring(0, index);
@@ -74,18 +68,17 @@ module.exports.fetch = (event, context, callback) => {
 //       for (let i = 0; i < lines.length; i += 1) {
 //         if (i === lineNumber - 1) {
 //           console.log(lines[i]);
-//           route = lines[i]
-//             .split('/:')
-//             .pop()
-//             .split(':');
+//           route = lines[i].split(':');
 //           break;
 //         }
 //       }
 //     }
 
+//     const message = route[30] === '' ? 'Flight plan not filed on VATSIM' : route[30].toString();
+
 //     const response = {
 //       statusCode: 200,
-//       body: route[0],
+//       body: message,
 //       headers: { 'content-type': 'text/plain' },
 //     };
 //     callback(null, response);
