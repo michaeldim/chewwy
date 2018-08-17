@@ -3,10 +3,9 @@ const axios = require('axios');
 
 const urls = [
   'http://vatsim-data.hardern.net/vatsim-data.txt',
-  'http://wazzup.flightoperationssystem.com/vatsim/vatsim-data.txt',
   'http://vatsim.aircharts.org/vatsim-data.txt',
   'http://data.vattastic.com/vatsim-data.txt',
-  // 'http://info2.vroute.net/vatsim-data.txt', // dead link
+  'http://info.vroute.net/vatsim-data.txt',
 ];
 
 const randomUrl = urls[Math.floor(Math.random() * urls.length)];
@@ -36,8 +35,13 @@ module.exports.fetch = (event, context, callback) => {
         }
       }
 
-      // go the planned_route column of client data at index '30' of route array
-      const message = route[30] === '' ? 'Flight plan not filed on VATSIM' : route[30].toString();
+      // index '30' of route array == route information
+      let message;
+      if (route[30] === '' || index === -1) {
+        message = 'Flight plan not filed on VATSIM or Chewwy94 is flying offline';
+      } else {
+        message = route[30].toString();
+      }
 
       const response = {
         statusCode: 200,
