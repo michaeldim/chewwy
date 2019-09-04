@@ -18,7 +18,7 @@ module.exports.fetch = (event, context, callback) => {
       // search on pilot ID plus partial first name for unique identifier as
       // pilot names can be changed eg. Matthew Smith / Matt Smith
       // and pilot ID alone may indexed elsewhere in text
-      const index = contents.indexOf(':1239164:Mat');
+      const index = contents.indexOf(':1239164:');
 
       if (index !== -1) {
         const tempString = contents.substring(0, index);
